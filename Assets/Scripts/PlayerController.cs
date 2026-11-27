@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviour
         moveAction.Enable();
         fireAction.Enable();
 
+        // Pool: se crean los proyectiles al inicio y quedan apagados
         for (int i = 0; i < poolSize; i++)
         {
             GameObject p = Instantiate(projectilePrefab);
@@ -29,9 +30,11 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        // Movimiento horizontal con el Input System
         moveInput = moveAction.ReadValue<Vector2>();
         transform.Translate(Vector3.right * moveInput.x * Time.deltaTime * speed);
 
+        // Limita al jugador dentro de XRange
         if (transform.position.x < -XRange)
         {
             transform.position = new Vector3(-XRange, transform.position.y, transform.position.z);
@@ -41,15 +44,16 @@ public class PlayerController : MonoBehaviour
             transform.position = new Vector3(XRange, transform.position.y, transform.position.z);
         }
 
+        // Disparo: tecla modificable
         if (fireAction.triggered)
         {
             foreach (GameObject p in projectiles)
             {
-                if (!p.activeInHierarchy)
+                if (!p.activeInHierarchy) // busca un proyectil libre
                 {
                     p.transform.position = transform.position + offset;
                     p.transform.rotation = projectilePrefab.transform.rotation;
-                    p.SetActive(true);
+                    p.SetActive(true); // lo reutiliza
                     break;
                 }
             }

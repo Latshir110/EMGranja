@@ -18,6 +18,7 @@ public class SpawnManager : MonoBehaviour
     {
         spawnAction.Enable();
 
+        // Pool: se crean todos los animales al inicio y quedan apagados
         foreach (GameObject prefab in animalPrefabs)
         {
             for (int i = 0; i < animalsPerType; i++)
@@ -28,11 +29,13 @@ public class SpawnManager : MonoBehaviour
             }
         }
 
+        // Aparece un animal cada spawnInterval segundos
         InvokeRepeating("SpawnRandomAnimal", startDelay, spawnInterval);
     }
 
     void Update()
     {
+        // Permite aparecer un animal manualmente con una tecla
         if (spawnAction.triggered)
         {
             SpawnRandomAnimal();
@@ -41,9 +44,11 @@ public class SpawnManager : MonoBehaviour
 
     void SpawnRandomAnimal()
     {
+        // Busca los animales apagados (libres para reutilizar)
         List<GameObject> libres = animals.FindAll(a => !a.activeInHierarchy);
-        if (libres.Count == 0) return;
+        if (libres.Count == 0) return; // si están todos en uso, no aparece ninguno
 
+        // Elige uno al azar, lo ubica en una X aleatoria y lo activa
         GameObject animal = libres[Random.Range(0, libres.Count)];
         animal.transform.position = new Vector3(Random.Range(-spawnRangeX, spawnRangeX), 0, spawnPosZ);
         animal.SetActive(true);
