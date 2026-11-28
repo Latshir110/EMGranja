@@ -92,3 +92,6 @@ Lee la señal del sensor EMG en el pin A0. Si supera la `brecha`, presiona la ba
 ## Autora
 
 Kristal Espinoza — Ingeniería en Realidad Virtual y Diseño de Juegos Digitales, Universidad Bernardo O'Higgins.
+
+
+Proyecto en Behance: https://www.behance.net/gallery/259146535/EMGranja-Kristal-Espinoza
